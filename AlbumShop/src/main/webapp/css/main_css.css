@@ -1,0 +1,121 @@
+@charset "UTF-8";
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 150px; /* 이미지 너비 조정 */
+            height: auto; /* 이미지 높이 자동 조정 */
+            margin-right: 10px; /* 로고 오른쪽 여백 추가 */
+        }
+
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li:last-child {
+            margin-right: 0;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .category-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100px; /* 작은 사이드바로 조정 */
+            height: 100%;
+            background-color: #f4f4f4;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+
+        .category-menu h2 {
+            margin-top: 0;
+        }
+
+        .category-menu ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .category-menu li {
+            margin-bottom: 10px;
+        }
+
+        .product-list {
+            margin-left: 120px; /* 작은 사이드바에 맞게 조정 */
+            padding: 20px;
+        }
+
+        .product-list h2 {
+            margin-top: 0;
+        }
+
+        .product {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .product img {
+            width: 200px;
+            height: auto;
+            margin-right: 20px;
+        }
+
+        .product-description {
+            flex: 1;
+        }
+
+
+ 
+        section {
+            margin-left: 120px;
+            padding: 20px;
+            width: calc(100% - 140px);
+            /* 페이지 로딩 시 #lieder 섹션으로 스크롤되도록 추가 */
+            scroll-margin-top: 100px;
+        }
+           .play-music {
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .play-music:hover {
+            background-color: #555;
+        }
+
+        /* 추가된 스타일: 오디오 컨트롤러 */
+        .audio-player {
+            margin-top: 10px;
+        }

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>음반 쇼핑몰</title>
+    <style>
+    @import url(css/main_css.css);
+        /* CSS 스타일은 여기에 작성합니다. */
+        aside {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            background-color: #f4f4f4;
+            padding: 20px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+            height: 300px;
+            width: 75px;
+        }
+
+        aside h3 {
+            margin-top: 0;
+        }
+
+        aside ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        aside li {
+            margin-bottom: 10px;
+        }
+
+        aside a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+
+        aside a:hover {
+            color: #555;
+        }
+                footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-content p {
+            margin: 0;
+        }
+
+        .footer-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        .footer-content ul li {
+            margin-right: 10px;
+        }
+
+        .footer-content ul li:last-child {
+            margin-right: 0;
+        }
+
+        .footer-content ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .cart-link {
+            position: fixed;
+            top: 50%;
+            right: 20px;
+            transform: translateY(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        .cart-link:hover {
+            background-color: #555;
+        }
+
+        /* 수정된 로그인 버튼 스타일 */
+        .profile-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .profile-btn:hover {
+            background-color: #555;
+        }
+        .login-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.login-btn:hover {
+    background-color: #555;
+}
+.logout-btn {
+    position: absolute;
+    top: 15px;
+    right: 90px; /* 로그인 버튼과 프로필 버튼 사이의 간격 조정 */
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.logout-btn:hover {
+    background-color: #555;
+}
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <img src="images/headLine.jpg" alt="음반 쇼핑몰 로고">
+        </div>
+         <h1>음반 쇼핑몰</h1>
+        <nav>
+            <ul>
+                <li><a href="#">사이트 소개</a></li>
+                <li><a href="#">제품</a></li>
+                <li><a href="#">공연 정보</a></li>
+                <li><a href="#">고객센터</a></li>
+            </ul>
+        </nav>
+    </header>
+      <aside>
+        <h3>카테고리</h3>
+        <ul>
+            <li><a href="#vocal">lieder</a></li>
+            <li><a href="#opera">PianoForte</a></li>
+            <li><a href="#symphony">Symphony</a></li>
+        </ul>
+    </aside>
+
+  
+  <section class="product-list">
+        <h2 id="vocal">lieder</h2>
+        <div class="product"  >
+            <img src="images/dmitri.jpg" alt="드미트리흐보로스키의 아리아들">
+            <div class="product-description">
+                <p>드미트리흐보로스키의 아리아들</p>
+                <p>가격: 30000원</p> <!-- 가격 추가 -->
+                <button class="add-to-cart" data-id="dmitri" data-price="30000" data-name="드미트리흐보로스키의 아리아들">장바구니에 추가</button>
+                 <audio class="audio-player" controls>
+                <source src="audio/a.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+        <h2 id="opera">PianoForte</h2>
+        <div class="product" >
+            <img src="images/Nocturne.jpg" alt="Chopin의 녹턴">
+            <div class="product-description" >
+                <p>Chopin의 녹턴</p>
+                <p>가격: 12000원</p> <!-- 가격 추가 -->
+                <button class="add-to-cart" data-id="Nocturne" data-price="12000" data-name="Chopin의 녹턴">장바구니에 추가</button>
+                 <audio class="audio-player" controls>
+                <source src="audio/b.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+        <h2 id="symphony">Symphony</h2>
+        <div class="product" >
+            <img src="images/stravinsky.jpg" alt="스트라빈스키의 봄의 제전">
+            <div class="product-description">
+                <p>스트라빈스키의 봄의 제전</p>
+                <p>가격: 15000원</p> <!-- 가격 추가 -->
+                <button class="add-to-cart" data-id="stravinsky" data-price="15000" data-name="스트라빈스키의 봄의 제전">장바구니에 추가</button>
+                
+          		  <audio class="audio-player" controls>
+                <source src="audio/c.mp3" type="audio/mpeg">
+            </audio>
+            </div>
+        </div>
+    </section>
+
+  <footer>
+        <div class="footer-content">
+            <p>문의: rodzlen@asd.com</p>
+            <ul>
+                <li><a href="#">이용약관</a></li>
+                <li><a href="#">개인정보 처리방침</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- 장바구니 링크 -->
+   <a href="cart.html" class="cart-link">장바구니</a>
+    <a href="login.html" class="login-btn" style="display: none;">로그인</a>
+    <a href="profilefix.html" class="profile-btn" style="display: none;">회원정보 수정</a>
+    <a href="main.html" class="logout-btn" style="display: none;">로그아웃</a>
+
+    <script src="js/main.js">
+  
+    </script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원정보 수정</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .signup-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .signup-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .signup-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-right: 10px;
+            width: 80px;
+            text-align: right;
+        }
+
+        .form-group input, .form-group select {
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+            flex: 1;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #555;
+        }
+
+        .btn {
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        .signup-btn {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .signup-btn:hover {
+            background-color: #555;
+        }
+
+        .back-btn {
+            background-color: #555;
+            color: #fff;
+        }
+
+        .back-btn:hover {
+            background-color: #777;
+        }
+        .signup-link, .back-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .signup-link a, .back-link a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .signup-link a:hover, .back-link a:hover {
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h2>회원정보 수정</h2>
+        <form class="signup-form" id="signup-form" autocomplete="off">
+            <div class="form-group">
+                <label for="email">이메일:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">성별:</label>
+                <select id="gender" name="gender" required>
+                    <option value="">선택하세요</option>
+                    <option value="male">남성</option>
+                    <option value="female">여성</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="birthdate">생년월일:</label>
+                <input type="date" id="birthdate" name="birthdate" required>
+            </div>
+            <button type="submit" class="btn signup-btn" id="signup-btn">수정하기</button>
+            <div class="signup-link">
+                <a href="main.html">뒤로가기</a>
+            </div>
+        </form>
+    </div>
+    <button onclick="logSessionStorage()">로그 저장</button>
+    <script>
+        // 페이지 로드 시 사용자 정보 표시
+        window.onload = function() {
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn');
+            const username = sessionStorage.getItem('currentUser'); // 현재 로그인된 사용자의 아이디 가져오기
+
+            if (isLoggedIn && username) {
+                const user = JSON.parse(sessionStorage.getItem(username)); // 저장된 사용자 정보 불러오기
+
+                // 사용자 정보 폼에 채우기
+                if (user) {
+                    document.getElementById('email').value = user.email || '';
+                    document.getElementById('gender').value = user.gender || '';
+                    document.getElementById('birthdate').value = user.birthdate || '';
+                }
+            } else {
+                alert('로그인이 필요합니다.');
+                window.location.href = 'login.html'; // 로그인 페이지로 이동
+            }
+        };
+
+        // 폼 제출 시 처리
+        document.getElementById('signup-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = sessionStorage.getItem('currentUser');
+            
+            if (username) {
+            	const storedUser = JSON.parse(sessionStorage.getItem(username));
+                const updatedUser = {
+                    email: document.getElementById('email').value,
+                    gender: document.getElementById('gender').value,
+                    birthdate: document.getElementById('birthdate').value,
+                    password: storedUser.password,
+                };
+
+                // 사용자 정보를 sessionStorage에 업데이트
+                sessionStorage.setItem(username, JSON.stringify(updatedUser));
+                alert('회원정보가 수정되었습니다.');
+                window.location.href = 'main.html'; // 수정 후 메인 페이지로 이동
+            } else {
+                alert('오류가 발생했습니다. 다시 시도해 주세요.');
+            }
+        });
+
+        // 세션에 저장되어있는 정보 디버깅용 - 회원정보 수정 시 비밀번호 프로퍼티가 사라지는 문제 디버깅
+        function logSessionStorage() {
+            console.log('전체 sessionStorage 객체:', sessionStorage);
+            
+            // 전체 데이터 출력
+            console.log('저장된 데이터:');
+            for (let i = 0; i < sessionStorage.length; i++) {
+                const key = sessionStorage.key(i);
+                const value = sessionStorage.getItem(key);
+                console.log(`${key}: ${value}`);
+            }
+        }
+    </script>
+</body>
+</html>

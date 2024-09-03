@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장바구니</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-item img {
+            width: 100px;
+            height: auto;
+            margin-right: 20px;
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-details p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .cart-item-price {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .quantity-btn {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            padding: 5px;
+            margin-right: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background-color: #555;
+        }
+
+        .quantity-display {
+            font-size: 16px;
+            margin: 0 10px;
+        }
+
+        .remove-btn {
+            background-color: #ff4d4d;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .remove-btn:hover {
+            background-color: #ff6666;
+        }
+
+        .cart-total {
+            text-align: right;
+            margin-top: 30px;
+        }
+
+        .cart-total p {
+            margin: 5px 0;
+            font-size: 18px;
+        }
+
+        .checkout-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            background-color: #45a049;
+        }
+
+        .return-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-right: 20px;
+        }
+
+        .return-btn:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>장바구니</h1>
+
+    <div class="cart-items">
+        <!-- 장바구니에 추가된 제품들이 여기에 동적으로 추가될 것입니다. -->
+    </div>
+
+    <div class="cart-total">
+        <p>총 가격: <span id="total-price">0</span>원</p>
+        <a href="#" class="checkout-btn">주문하기</a>
+        <a href="main.html" class="return-btn">메인 페이지로 돌아가기</a>
+    </div>
+
+    <script>
+        // 페이지 로딩이 완료되면 실행될 함수
+        document.addEventListener("DOMContentLoaded", function() {
+            // 세션 스토리지에서 장바구니 목록을 가져옵니다.
+            let cartItems = JSON.parse(sessionStorage.getItem("cart")) || [];
+
+            // 장바구니 목록을 표시할 요소를 선택합니다.
+            const cartItemsContainer = document.querySelector(".cart-items");
+
+            // 장바구니에 추가된 제품들을 표시하는 함수를 호출합니다.
+            loadCart();
+
+            // 주문하기 버튼 클릭 시 동작하는 이벤트 리스너를 추가합니다.
+            const checkoutBtn = document.querySelector(".checkout-btn");
+            checkoutBtn.addEventListener("click", function() {
+                // 주문 기능을 여기에 구현할 수 있습니다.
+                if(cartItems== 0){
+                	alert("장바구니에 상품이 없습니다.");
+                	
+                }else{
+                alert("주문이 완료되었습니다!");
+                }
+            });
+
+            // 제품의 총 가격을 계산하고 표시합니다.
+            const totalPriceElement = document.getElementById("total-price");
+            const totalPrice = calculateTotalPrice(cartItems);
+            totalPriceElement.textContent = totalPrice.toLocaleString();
+
+            // 장바구니에 추가된 제품 하나를 표시하는 요소를 생성하는 함수입니다.
+            function createCartItemElement(item) {
+                const cartItemElement = document.createElement("div");
+                cartItemElement.classList.add("cart-item");
+
+                const productImage = document.createElement("img");
+                productImage.src = "images/" + item.id + ".jpg"; // 이미지 경로 생성
+                productImage.alt = item.name;
+                productImage.style.width = "100px"; // 이미지 크기 설정
+                productImage.style.height = "auto";
+                productImage.style.marginRight = "20px";
+                cartItemElement.appendChild(productImage);
+
+                const cartItemDetails = document.createElement("div");
+                cartItemDetails.classList.add("cart-item-details");
+
+                const productName = document.createElement("p");
+                productName.textContent = item.name;
+                cartItemDetails.appendChild(productName);
+
+                const productPrice = document.createElement("p");
+                productPrice.classList.add("cart-item-price");
+                productPrice.textContent = "가격: " + item.price.toLocaleString() + "원";
+                cartItemDetails.appendChild(productPrice);
+
+                const quantityControls = document.createElement("div");
+                quantityControls.classList.add("quantity-controls");
+
+                const decreaseBtn = document.createElement("button");
+                decreaseBtn.classList.add("quantity-btn");
+                decreaseBtn.textContent = "-";
+                decreaseBtn.addEventListener("click", function() {
+                    if (item.quantity > 1) {
+                        item.quantity--;
+                        updateCart();
+                        updateQuantityDisplay(quantityDisplay, item.quantity);
+                    }
+                });
+                quantityControls.appendChild(decreaseBtn);
+
+                const quantityDisplay = document.createElement("span");
+                quantityDisplay.classList.add("quantity-display");
+                quantityDisplay.textContent = item.quantity;
+                quantityControls.appendChild(quantityDisplay);
+
+                const increaseBtn = document.createElement("button");
+                increaseBtn.classList.add("quantity-btn");
+                increaseBtn.textContent = "+";
+                increaseBtn.addEventListener("click", function() {
+                    item.quantity++;
+                    updateCart();
+                    updateQuantityDisplay(quantityDisplay, item.quantity);
+                });
+                quantityControls.appendChild(increaseBtn);
+
+                const removeBtn = document.createElement("button");
+                removeBtn.classList.add("remove-btn");
+                removeBtn.textContent = "제거";
+                removeBtn.addEventListener("click", function() {
+                    removeItemFromCart(item);
+                });
+                quantityControls.appendChild(removeBtn);
+
+                cartItemDetails.appendChild(quantityControls);
+
+                cartItemElement.appendChild(cartItemDetails);
+
+                return cartItemElement;
+            }
+
+            // 제품의 총 가격을 계산하는 함수입니다.
+            function calculateTotalPrice(cartItems) {
+                let totalPrice = 0;
+                cartItems.forEach(item => {
+                    totalPrice += item.price * item.quantity;
+                });
+                return totalPrice;
+            }
+
+            // 장바구니를 로드하여 업데이트하는 함수입니다.
+            function loadCart() {
+                cartItemsContainer.innerHTML = ""; // 장바구니 비우기
+
+                cartItems.forEach(item => {
+                    const cartItemElement = createCartItemElement(item);
+                    cartItemsContainer.appendChild(cartItemElement);
+                });
+            }
+
+            // 장바구니를 업데이트하는 함수입니다.
+            function updateCart() {
+                // 총 가격을 다시 계산하고 표시합니다.
+                const totalPriceElement = document.getElementById("total-price");
+                const totalPrice = calculateTotalPrice(cartItems);
+                totalPriceElement.textContent = totalPrice.toLocaleString();
+            }
+
+            // 장바구니에서 특정 상품을 제거하는 함수입니다.
+            function removeItemFromCart(item) {
+                // 현재 장바구니에서 해당 상품을 제거합니다.
+                cartItems = cartItems.filter(cartItem => cartItem.name !== item.name);
+
+                // 업데이트된 장바구니 목록을 세션 스토리지에 저장합니다.
+                sessionStorage.setItem("cart", JSON.stringify(cartItems));
+
+                // 장바구니를 다시 로드하여 표시를 업데이트합니다.
+                loadCart();
+                // 장바구니 업데이트
+                updateCart();
+            }
+
+            // 수량 표시 업데이트 함수
+            function updateQuantityDisplay(element, quantity) {
+                element.textContent = quantity;
+            }
+        });
+    </script>
+</body>
+</html>

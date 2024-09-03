@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-right: 10px;
+            width: 80px;
+            text-align: right;
+        }
+
+        .form-group input {
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #555;
+        }
+
+        .login-btn {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #555;
+        }
+
+        .signup-link, .back-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .signup-link a, .back-link a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .signup-link a:hover, .back-link a:hover {
+            color: #555;
+        }
+
+        .back-btn {
+            background-color: #bbb;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .back-btn:hover {
+            background-color: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>로그인</h2>
+        <form class="login-form" action="#" autocomplete="off" method="post" id="login-form">
+            <div class="form-group">
+                <label for="username">아이디:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">비밀번호:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="login-btn" id="login-btn">로그인</button>
+        </form>
+        <div class="signup-link">
+            <a href="create.html">회원가입</a>
+        </div>
+        <div class="back-link">
+            <button onclick="window.location.href = 'main.html';" class="back-btn">뒤로가기</button>
+        </div>
+    </div>
+
+    <script>
+        // 로그인 버튼 클릭 시
+        document.getElementById('login-btn').addEventListener('click', function(event) {
+            event.preventDefault(); // 기본 제출 행동 막기
+
+            // 폼 데이터 가져오기
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // sessionStorage에서 사용자 정보 가져오기
+            const storedUser = sessionStorage.getItem(username);
+
+            if (storedUser) {
+                const user = JSON.parse(storedUser); // JSON 문자열을 객체로 변환
+                if (user.password === password) {
+                    // 로그인 성공 시 sessionStorage에 로그인 정보 저장
+                    sessionStorage.setItem('isLoggedIn', 'true');
+                    sessionStorage.setItem('currentUser', username);
+                    alert(user.name + "님 환영합니다!");
+                    window.location.href = 'main.html';
+                } else {
+                    alert('비밀번호가 올바르지 않습니다.');
+                }
+            } else {
+                alert('유효하지 않은 아이디입니다.');
+            }
+        });
+    </script>
+</body>
+</html>
